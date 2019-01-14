@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Header from './components/Header'
 import { getRandomNumber } from './utils/getRandomNumber'
+import { getCharacters } from './services/getCharacters'
 import 'es6-promise'
 import 'isomorphic-fetch'
 import './App.css'
@@ -28,54 +29,15 @@ class App extends Component {
     }
 
     getTenCharacters() {
-        fetch(apiUri)
-            .then(response => {
-                if (response.status >= 400) {
-                    throw new Error(errorMessage)
-                }
-                return response.json()
-            })
-            .then(data => {
-                this.setState({
-                    characters: data.results,
-                    nextSet: data.next,
-                    prevSet: data.previous
-                })
-            })
+        getCharacters(apiUri, this)
     }
 
     getPrevTenCharacters() {
-        fetch(this.state.prevSet)
-            .then(response => {
-                if (response.status >= 400) {
-                    throw new Error(errorMessage)
-                }
-                return response.json()
-            })
-            .then(data => {
-                this.setState({
-                    characters: data.results,
-                    nextSet: data.next,
-                    prevSet: data.previous
-                })
-            })
+        getCharacters(this.state.prevSet, this)
     }
 
     getNextTenCharacters() {
-        fetch(this.state.nextSet)
-            .then(response => {
-                if (response.status >= 400) {
-                    throw new Error(errorMessage)
-                }
-                return response.json()
-            })
-            .then(data => {
-                this.setState({
-                    characters: data.results,
-                    nextSet: data.next,
-                    prevSet: data.previous
-                })
-            })
+        getCharacters(this.state.nextSet, this)
     }
 
     getCharacter() {
