@@ -13,6 +13,8 @@ class App extends Component {
         super(props)
         this.state = {
             characters: [],
+            prevSet: null,
+            nextSet: null,
             name: null,
             birthYear: null,
             gender: null,
@@ -21,6 +23,8 @@ class App extends Component {
         }
         this.getTenCharacters = this.getTenCharacters.bind(this)
         this.getCharacter = this.getCharacter.bind(this)
+        this.getPrevTenCharacters = this.getPrevTenCharacters.bind(this)
+        this.getNextTenCharacters = this.getNextTenCharacters.bind(this)
     }
 
     getTenCharacters() {
@@ -32,8 +36,45 @@ class App extends Component {
                 return response.json()
             })
             .then(data => {
-                this.setState({characters: data.results})
-                console.log(this.state.characters)
+                this.setState({
+                    characters: data.results,
+                    nextSet: data.next,
+                    prevSet: data.previous
+                })
+            })
+    }
+
+    getPrevTenCharacters() {
+        fetch(this.state.prevSet)
+            .then(response => {
+                if (response.status >= 400) {
+                    throw new Error(errorMessage)
+                }
+                return response.json()
+            })
+            .then(data => {
+                this.setState({
+                    characters: data.results,
+                    nextSet: data.next,
+                    prevSet: data.previous
+                })
+            })
+    }
+
+    getNextTenCharacters() {
+        fetch(this.state.nextSet)
+            .then(response => {
+                if (response.status >= 400) {
+                    throw new Error(errorMessage)
+                }
+                return response.json()
+            })
+            .then(data => {
+                this.setState({
+                    characters: data.results,
+                    nextSet: data.next,
+                    prevSet: data.previous
+                })
             })
     }
 
@@ -53,14 +94,21 @@ class App extends Component {
                     eyeColor: character.eye_color,
                     hairColor: character.hair_color
                 })
-                console.log(this.state.name)
             })
     }
 
     render() {
+        let prevButton
+        let nextButton
+        if (this.state.prevSet !== null) {
+            prevButton = <button onClick={this.getPrevTenCharacters}>Previous Set</button>
+        }
+        if (this.state.nextSet !== null) {
+            nextButton = <button onClick={this.getNextTenCharacters}>Next Set</button>
+        }
         return <div className="App">
             <Header />
-            <button onClick={this.getCharacter}>Generate Star Wars Character</button>
+            <button onClick={this.getCharacter}>Generate Random Star Wars Character</button>
             <div id="characterInfo" className="">
                 <p>
                     <strong>{this.state.name !== null ? 'Name: ' : null}</strong>
@@ -84,13 +132,15 @@ class App extends Component {
                 </p>
             </div>
             <button onClick={this.getTenCharacters}>Display 10 Characters</button>
-            <div id="tenCharacters">
+            <div id="tenCharacters" className="container-full">
                 {this.state.characters.map((character) => {
                     return <div key={character.name} className="character">
                         {character.name}
                     </div>
                 })}
             </div>
+            {prevButton}
+            {nextButton}
         </div>
     }
 

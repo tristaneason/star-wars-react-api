@@ -18,6 +18,16 @@ code {
     width: 25rem;
 }
 
+.container-full {
+    display: flex;
+    padding: 1rem;
+}
+
+.character {
+    padding: 1.5rem;
+    width: 10%;
+}
+
 .left-align {
     text-align: left;
 }
