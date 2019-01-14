@@ -1,8 +1,13 @@
 {
-  "name": "weatherapp",
+  "name": "reactapiexample",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "es6-promise": "^4.2.5",
+    "express": "^4.16.4",
+    "isomorphic-fetch": "^2.2.1",
+    "passport": "^0.4.0",
+    "passport-github": "^1.1.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-scripts": "2.1.3"
