@@ -1,7 +1,7 @@
 import 'es6-promise'
 import 'isomorphic-fetch'
 
-export const getCharacters = (uri, state) => {
+export const getCharacters = (uri, state, randomCharacter = false) => {
     const errorMessage = 'Error response, there is. Crash, this app has.'
     fetch(uri)
         .then(response => {
@@ -11,10 +11,20 @@ export const getCharacters = (uri, state) => {
             return response.json()
         })
         .then(data => {
-            state.setState({
-                characters: data.results,
-                nextSet: data.next,
-                prevSet: data.previous
-            })
+            if (randomCharacter) {
+                state.setState({
+                    name: data.name,
+                    birthYear: data.birth_year,
+                    gender: data.gender,
+                    eyeColor: data.eye_color,
+                    hairColor: data.hair_color
+                })
+            } else {
+                state.setState({
+                    characters: data.results,
+                    nextSet: data.next,
+                    prevSet: data.previous
+                })
+            }
         })
 }

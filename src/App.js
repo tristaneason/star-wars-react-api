@@ -9,7 +9,6 @@ import 'isomorphic-fetch'
 import './App.css'
 
 const apiUri = 'https://swapi.co/api/people/'
-const errorMessage = 'Error response, there is. Crash, this app has.'
 
 class App extends Component {
     constructor(props) {
@@ -43,22 +42,7 @@ class App extends Component {
     }
 
     getCharacter() {
-        fetch(apiUri + getRandomNumber(87))
-            .then(response => {
-                if (response.status >= 400) {
-                    throw new Error(errorMessage)
-                }
-                return response.json()
-            })
-            .then(character => {
-                this.setState({
-                    name: character.name,
-                    birthYear: character.birth_year,
-                    gender: character.gender,
-                    eyeColor: character.eye_color,
-                    hairColor: character.hair_color
-                })
-            })
+        getCharacters(apiUri + getRandomNumber(87), this, true)
     }
 
     render() {
