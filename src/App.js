@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import Header from './components/Header'
+import RandomCharacter from './components/RandomCharacter'
+import TenCharacters from './components/TenCharacters'
 import { getRandomNumber } from './utils/getRandomNumber'
 import { getCharacters } from './services/getCharacters'
 import 'es6-promise'
@@ -60,8 +62,7 @@ class App extends Component {
     }
 
     render() {
-        let prevButton
-        let nextButton
+        let prevButton, nextButton
         if (this.state.prevSet !== null) {
             prevButton = <button onClick={this.getPrevTenCharacters}>Previous Set</button>
         }
@@ -70,42 +71,23 @@ class App extends Component {
         }
         return <div className="App">
             <Header />
-            <button onClick={this.getCharacter}>Generate Random Star Wars Character</button>
-            <div id="characterInfo" className="">
-                <p>
-                    <strong>{this.state.name !== null ? 'Name: ' : null}</strong>
-                    {this.state.name}
-                </p>
-                <p>
-                    <strong>{this.state.birthYear !== null ? 'Birth Year: ' : null}</strong>
-                    {this.state.birthYear}
-                </p>
-                <p>
-                    <strong>{this.state.gender !== null ? 'Gender: ' : null}</strong>
-                    {this.state.gender}
-                </p>
-                <p>
-                    <strong>{this.state.eyeColor !== null ? 'Eye Color: ' : null}</strong>
-                    {this.state.eyeColor}
-                </p>
-                <p>
-                    <strong>{this.state.hairColor !== null ? 'Hair Color: ' : null}</strong>
-                    {this.state.hairColor}
-                </p>
-            </div>
-            <button onClick={this.getTenCharacters}>Display 10 Characters</button>
-            <div id="tenCharacters" className="container-full">
-                {this.state.characters.map((character) => {
-                    return <div key={character.name} className="character">
-                        {character.name}
-                    </div>
-                })}
-            </div>
-            {prevButton}
-            {nextButton}
+            <button onClick={this.getCharacter}>
+                Generate Random Star Wars Character
+            </button>
+            <RandomCharacter
+                name={this.state.name}
+                birthYear={this.state.birthYear}
+                gender={this.state.gender}
+                eyeColor={this.state.eyeColor}
+                hairColor={this.state.hairColor} />
+            <button onClick={this.getTenCharacters}>
+                Display 10 Characters
+            </button>
+            <TenCharacters
+                characters={this.state.characters} />
+            {prevButton} {nextButton}
         </div>
     }
-
 }
 
 export default App
