@@ -2,13 +2,12 @@ import React, { Component } from 'react'
 import Header from './components/Header'
 import RandomCharacter from './components/RandomCharacter'
 import TenCharacters from './components/TenCharacters'
+import { apiUri } from './config/uri'
 import { getRandomNumber } from './utils/getRandomNumber'
 import { getCharacters } from './services/getCharacters'
 import 'es6-promise'
 import 'isomorphic-fetch'
 import './App.css'
-
-const apiUri = 'https://swapi.co/api/people/'
 
 class App extends Component {
     constructor(props) {
